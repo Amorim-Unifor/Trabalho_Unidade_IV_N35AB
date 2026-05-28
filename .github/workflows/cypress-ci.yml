@@ -1,0 +1,63 @@
+name: Cypress CI
+
+on:
+  push:
+    paths:
+      - 'converter-backend/**'
+      - 'converter-frontend/**'
+      - '.github/workflows/cypress-ci.yml'
+  pull_request:
+    paths:
+      - 'converter-backend/**'
+      - 'converter-frontend/**'
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            converter-backend/package-lock.json
+            converter-frontend/package-lock.json
+
+      - name: Instalar dependências do backend
+        run: |
+          cd converter-backend
+          npm install
+
+      - name: Instalar dependências do frontend
+        run: |
+          cd converter-frontend
+          npm install
+
+      - name: Iniciar backend em segundo plano
+        run: |
+          cd converter-backend
+          npm start &
+          echo $! > /tmp/backend.pid
+          sleep 5
+
+      - name: Executar testes Cypress do backend
+        run: |
+          cd converter-backend
+          npm run cy:run
+
+      - name: Executar testes Cypress do frontend
+        run: |
+          cd converter-frontend
+          npm run cy:run
+
+      - name: Parar backend
+        if: always()
+        run: |
+          if [ -f /tmp/backend.pid ]; then
+            kill $(cat /tmp/backend.pid) || true
+          fi

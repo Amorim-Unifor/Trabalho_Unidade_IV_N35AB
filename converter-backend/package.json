@@ -6,7 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jasmine"
+    "test": "jasmine",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "keywords": [
     "express",
@@ -21,6 +23,7 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
+    "cypress": "^14.0.0",
     "jasmine": "^5.1.0",
     "supertest": "^7.0.0"
   }

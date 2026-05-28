@@ -1,0 +1,13 @@
+{
+  "name": "converter-frontend",
+  "version": "1.0.0",
+  "description": "Frontend de conversor de unidades com testes Cypress",
+  "private": true,
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^14.0.0"
+  }
+}
