@@ -1,0 +1,27 @@
+
+{
+  "name": "converter-backend",
+  "version": "1.0.0",
+  "description": "API backend simples em ExpressJS para conversor de unidades (demo acadêmico)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jasmine"
+  },
+  "keywords": [
+    "express",
+    "converter",
+    "demo",
+    "classroom"
+  ],
+  "author": "Professor ADS",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "jasmine": "^5.1.0",
+    "supertest": "^7.0.0"
+  }
+}

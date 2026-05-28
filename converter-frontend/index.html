@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversor de Unidades (Frontend + Backend)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Conversor de Unidades</h1>
+    <p class="subtitle">Converte entre metros, quilômetros, milhas e pés via API.</p>
+
+    <form id="conv-form">
+      <div class="row">
+        <label for="value">Valor:</label>
+        <input id="value-input" name="value" type="number" step="any" required placeholder="Ex.: 10" />
+      </div>
+      <div class="row">
+        <label for="from">De:</label>
+        <select id="from" name="from">
+          <option value="m">Metros (m)</option>
+          <option value="km">Quilômetros (km)</option>
+          <option value="mi">Milhas (mi)</option>
+          <option value="ft">Pés (ft)</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="to">Para:</label>
+        <select id="to" name="to">
+          <option value="m">Metros (m)</option>
+          <option value="km">Quilômetros (km)</option>
+          <option value="mi">Milhas (mi)</option>
+          <option value="ft">Pés (ft)</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button type="submit">Converter</button>
+        <button type="button" id="clear">Limpar</button>
+      </div>
+    </form>
+
+    <div id="result" class="card hidden">
+      <h2>Resultado</h2>
+      <div class="result-line">
+        <span id="expression">—</span>
+        <span class="equals">=</span>
+        <strong id="value-out">—</strong>
+      </div>
+      <p id="error" class="error"></p>
+    </div>
+
+    <details class="advanced">
+      <summary>Configurações avançadas</summary>
+      <label for="api-base">URL do backend:</label>
+      <input id="api-base" type="text" value="http://localhost:4000" />
+      <button id="ping">Testar conexão (healthcheck)</button>
+      <p id="health-out"></p>
+    </details>
+
+    <footer>
+      <small>Demo educacional • HTML/CSS/JS + ExpressJS • © 2025</small>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
