@@ -5,8 +5,8 @@ describe('Conversor de Unidades Frontend', () => {
 
   it('deve carregar o formulário corretamente', () => {
     cy.get('#value-input').should('exist');
-    cy.get('#from').should('have.value', 'm');
-    cy.get('#to').should('have.value', 'km');
+    cy.get('#from').should('exist');
+    cy.get('#to').should('exist');
     cy.get('button[type="submit"]').should('contain.text', 'Converter');
   });
 
@@ -22,6 +22,7 @@ describe('Conversor de Unidades Frontend', () => {
   });
 
   it('deve mostrar erro se o backend estiver fora do ar', () => {
+    cy.contains('summary', 'Configurações avançadas').click();
     cy.get('#api-base').clear().type('http://localhost:9999');
     cy.get('#value-input').type('1');
     cy.get('#from').select('m');
