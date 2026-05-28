@@ -1,13 +1,8 @@
 name: Backend CI
 
 on:
-  push:
-    paths:
-      - 'converter-backend/**'
-      - '.github/workflows/backend-ci.yml'
-  pull_request:
-    paths:
-      - 'converter-backend/**'
+  push: {}
+  pull_request: {}
 
 jobs:
   test-backend:

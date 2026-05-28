@@ -1,15 +1,8 @@
-name: Cypress CI
+name: Frontend CI
 
 on:
-  push:
-    paths:
-      - 'converter-backend/**'
-      - 'converter-frontend/**'
-      - '.github/workflows/frontend-ci.yml'
-  pull_request:
-    paths:
-      - 'converter-backend/**'
-      - 'converter-frontend/**'
+  push: {}
+  pull_request: {}
 
 jobs:
   cypress:
