@@ -6,5 +6,8 @@
     "cy:backend": "npm --prefix converter-backend run cy:run",
     "cy:frontend": "npm --prefix converter-frontend run cy:run",
     "cy:all": "node scripts/run-cypress.js"
+  },
+  "devDependencies": {
+    "cypress": "^15.16.0"
   }
 }

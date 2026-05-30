@@ -1,7 +1,7 @@
 describe('Conversor de Unidades Frontend', () => {
   beforeEach(() => {
-    cy.visit('index.html');
-  });
+  cy.visit('/index.html');
+});
 
   it('deve carregar o formulário corretamente', () => {
     cy.get('#value-input').should('exist');
