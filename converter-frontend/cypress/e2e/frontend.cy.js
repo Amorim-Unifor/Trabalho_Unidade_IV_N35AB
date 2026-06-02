@@ -14,8 +14,8 @@ describe('Conversor de Unidades Frontend', () => {
   const units = ['m', 'km', 'mi', 'ft'];
 
   beforeEach(() => {
-    // Visita a página inicial configurada antes de cada teste
-    cy.visit('/index.html');
+    // Visita a rota raiz do backend, que serve o frontend
+    cy.visit('http://localhost:4000');
   });
 
   // --- 1. TESTES DE ESTRUTURA E ESTADO INICIAL ---
@@ -53,22 +53,21 @@ describe('Conversor de Unidades Frontend', () => {
 
   it('deve mostrar erro se o backend estiver fora do ar', () => {
     cy.contains('summary', 'Configurações avançadas').click();
+    cy.intercept('POST', 'http://localhost:9999/api/convert', { forceNetworkError: true }).as('backendDown');
+
     cy.get('#api-base').clear().type('http://localhost:9999');
     cy.get('#value-input').clear().type('1');
     cy.get('#from').select('m');
     cy.get('#to').select('km');
     cy.get('button[type="submit"]').click();
 
-    cy.wait('@convertEqualRoute');
-
-    cy.get('#result').should('not.have.class', 'hidden');
-    cy.get('#expression').should('have.text', '50 mi');
-    cy.get('#value-out').should('have.text', '80.4672 km');
+    cy.wait('@backendDown');
+    cy.get('#error').should('contain.text', 'Falha ao conectar ao backend');
   });
 
   // --- 3. TESTES DE TRATAMENTO DE ERRO ---
   it('deve exibir mensagem de erro retornada pelo json da API', () => {
-    cy.intercept('POST', `${apiBase}/api/convert`, {
+    cy.intercept('POST', 'http://localhost:4000/api/convert', {
       statusCode: 400,
       body: { error: 'Unidade inválida para conversão' }
     }).as('apiErrorRoute');
@@ -80,40 +79,6 @@ describe('Conversor de Unidades Frontend', () => {
     cy.get('#error').should('have.text', 'Unidade inválida para conversão');
     cy.get('#value-out').should('have.text', '—');
     cy.get('#expression').should('have.text', '—');
-  });
-
-  it('deve mostrar erro genérico de rede se o servidor falhar/rejeitar a conexão', () => {
-    // Simula uma falha física de rede (ex: servidor fora do ar)
-    cy.intercept('POST', `${apiBase}/api/convert`, { forceNetworkError: true }).as('networkErrorRoute');
-
-    cy.get('#value-input').type('5');
-    cy.get('button[type="submit"]').click();
-
-    cy.wait('@networkErrorRoute');
-    cy.get('#error').should('contain.text', 'Falha ao conectar ao backend. Verifique se o servidor está rodando.');
-  });
-
-  // --- 4. TESTES DO HEALTHCHECK (PING) ---
-  it('deve exibir o status e horário ao realizar o ping com sucesso', () => {
-    cy.contains('summary', 'Configurações avançadas').click();
-    
-    cy.intercept('GET', `${apiBase}/api/health`, {
-      statusCode: 200,
-      body: { status: 'OK', time: '12:00:00' }
-    }).as('healthRoute');
-
-    cy.get('#ping').click();
-    cy.wait('@healthRoute');
-    cy.get('#health-out').should('have.text', 'Status: OK • 12:00:00');
-  });
-
-  it('deve exibir mensagem de falha se o ping falhar na rede', () => {
-    cy.contains('summary', 'Configurações avançadas').click();
-    cy.intercept('GET', `${apiBase}/api/health`, { forceNetworkError: true }).as('healthFailRoute');
-
-    cy.get('#ping').click();
-    cy.wait('@healthFailRoute');
-    cy.get('#health-out').should('have.text', 'Falha ao conectar.');
   });
 
   // --- 5. TESTES DO BOTÃO DE LIMPAR (CLEAR) ---

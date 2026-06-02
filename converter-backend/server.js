@@ -30,6 +30,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+    if (err) {
+      console.error('Erro ao servir index.html:', err.message);
+      res.status(500).send('Erro ao carregar a aplicação');
+    }
+  });
+});
+
 app.post('/api/convert', (req, res) => {
   try {
     const { from, to, value } = req.body || {};
