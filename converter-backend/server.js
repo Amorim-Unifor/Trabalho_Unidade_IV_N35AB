@@ -6,12 +6,18 @@
  */
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
+
+// Servir arquivos estáticos do frontend
+const frontendPath = path.resolve(__dirname, '../converter-frontend');
+console.log(`📁 Servindo arquivos estáticos de: ${frontendPath}`);
+app.use(express.static(frontendPath));
 
 const toMeters = {
   m: 1,
@@ -45,6 +51,17 @@ app.post('/api/convert', (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Erro interno no servidor' });
   }
+});
+
+// Fallback para servir index.html para rotas que não são API
+app.get('*', (req, res) => {
+  const indexPath = path.resolve(__dirname, '../converter-frontend/index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error(`❌ Erro ao servir ${indexPath}:`, err.message);
+      res.status(500).send('Erro ao carregar a página');
+    }
+  });
 });
 
 if (require.main === module) {
