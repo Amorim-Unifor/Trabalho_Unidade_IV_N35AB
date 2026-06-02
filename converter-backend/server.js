@@ -2,7 +2,7 @@
  * Unit Converter Backend - ExpressJS
  * Endpoints:
  *  POST /api/convert -> { from: "m"|"km"|"mi"|"ft", to: "m"|"km"|"mi"|"ft", value: number }
- *  GET  /api/health -> { status: 'ok' }
+ *  GET  /api/health -> { status: 'ok' } teste
  */
 const express = require('express');
 const cors = require('cors');
