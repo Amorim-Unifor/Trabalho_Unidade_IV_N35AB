@@ -1,5 +1,5 @@
 (function(){
-  const form = document.getElementById('conv-form');
+  const form = document.getElementById('conv-form'); 
   const inputValue = document.getElementById('value-input');
   const selectFrom = document.getElementById('from');
   const selectTo = document.getElementById('to');
